@@ -6,17 +6,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    tareas :[]
   },
   mutations: {
+    setTareas(state, payload){
+      state.tareas = payload
+    }
   },
   actions: {
     getTareas({commit}){
+      const tareas = []
       db.collection('tareas').get()
       .then(res => {
-        res.forEach(doc=>{
-          console.log(doc.id)
-          console.log(doc.data())
+        res.forEach(doc=>{         
+          let tarea = doc.data()
+          tarea.id = doc.id
+          tareas.push(tarea)
         })
+        commit('setTareas', tareas)
       })
     }
   },
