@@ -16,6 +16,12 @@ export default new Vuex.Store({
     },
     setTarea(state, payload){
       state.tarea = payload      
+    },
+    addTarea(state,payload){
+      state.tareas.push(payload)
+    },
+    eliminarTarea(state, payload){
+      state.tareas = state.tareas.filter(tarea => tarea.id != payload)
     }
   },
   actions: {
@@ -47,6 +53,24 @@ export default new Vuex.Store({
       }).then(()=>{
         console.log('Tarea Editada')
         router.push('/')
+      })
+    },
+    agregarTarea({commit, dispatch}, nombreTarea){
+      db.collection('tareas').add({
+        nombre: nombreTarea
+      }).then( res =>{
+        console.log(res.id)
+        //dispatch('getTareas')
+        let tarea = {id:res.id , nombre:nombreTarea}
+        commit('addTarea', tarea)
+      })
+    },
+    eliminarTarea({commit, dispatch},id){
+      db.collection('tareas').doc(id).delete()
+      .then(()=>{
+        console.log("Tarea eliminada")
+        //dispatch('getTareas') //recarga pagina pero implica traer todos los datos del servidor
+        commit('eliminarTarea', id)
       })
     }
   },
