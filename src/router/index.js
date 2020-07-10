@@ -9,6 +9,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Inicio',   
     component: () => import(/* webpackChunkName: "about" */ '../views/Inicio.vue')
+  },
+  {
+    path: '/editar/:id',
+    name: 'Editar',   
+    component: () => import(/* webpackChunkName: "about" */ '../views/Editar.vue')
   }
 ]
 
