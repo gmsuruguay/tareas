@@ -1,35 +1,43 @@
 <template>
     <div>
-        <h1>Inicio</h1>
+        <h1>Inicio</h1>       
         <form @submit.prevent="agregarTarea(nombre)">
-            <input type="text" v-model="nombre">
-            <button type="submit">Agregar</button>
+            <div class="input-group mb-3">
+                <input class="form-control" type="text" v-model="nombre">
+                <div class="input-group-append">
+                <button type="submit" class="btn btn-primary" v-on:keyup.enter="agregarTarea(nombre)">Agregar</button>
+                </div>
+            </div>
         </form>
-        <ul>
-            <li v-for="(tarea,index) in tareas" :key="index"> {{tarea.nombre}}
-            <router-link :to="{name: 'Editar' , params:{id:tarea.id}}">
-                <button> Editar </button>
-            </router-link>
-            <button @click="eliminarTarea(tarea.id)">Eliminar</button>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="(tarea,index) in tareas" :key="index"> {{tarea.nombre}}
+            <span>
+                <router-link :to="{name: 'Editar' , params:{id:tarea.id}}">
+                    <button type="button" class="btn btn-link text-primary"> <i class="material-icons">create</i></button>
+                </router-link>
+                <button type="button" class="btn btn-link text-danger" @click="eliminarTarea(tarea.id)"><i class="material-icons">delete_outline</i></button>
+            </span>  
             </li>
-        </ul>        
+        </ul>      
     </div>
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState, mapMutations} from 'vuex'
     export default {
         name: 'Inicio',
         data(){
-            return{
-                nombre: ''
+           return{
+                nombre:''
             }
         },
         created(){
             this.getTareas()
         },
         methods:{
-            ...mapActions(['getTareas','agregarTarea','eliminarTarea'])
+            ...mapActions(['getTareas','eliminarTarea','agregarTarea']),
+            //...mapMutations(['agregarTarea'])
         },
         computed:{
             ...mapState(['tareas'])

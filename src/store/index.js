@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tareas :[],
-    tarea : { id :'', nombre:''}
+    tarea : { id :'', nombre:''},    
   },
   mutations: {
     setTareas(state, payload){
