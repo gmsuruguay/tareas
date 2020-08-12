@@ -10,14 +10,14 @@
             </div>
         </form>
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center"
+            <li class="list-group-item d-flex justify-content-between align-items-center" :class="[tarea.completado ? 'list-group-item-success' : '']"
             v-for="(tarea,index) in tareas" :key="index"> {{index}} - {{tarea.nombre}} - {{tarea.completado}}
             <span>
-                <router-link :to="{name: 'Editar' , params:{id:tarea.id}}">
+                <router-link :to="{name: 'Editar' , params:{id:tarea.id}}" v-if="!tarea.completado">
                     <button type="button" class="btn btn-link text-primary"> <i class="material-icons">create</i></button>
                 </router-link>
-                <button type="button" class="btn btn-link text-danger" @click="eliminarTarea(tarea.id)"><i class="material-icons">delete_outline</i></button>
-                <button type="button" class="btn btn-link text-success" @click="completarTarea({id:tarea.id , index: index})"><i class="material-icons">done</i></button>
+                <button type="button" class="btn btn-link text-danger" @click="eliminarTarea(tarea.id)" v-if="!tarea.completado"><i class="material-icons">delete_outline</i></button>
+                <button type="button" class="btn btn-link text-success" @click="completarTarea({id:tarea.id , index: index})" v-if="!tarea.completado"><i class="material-icons">done</i></button>
             </span>  
             </li>
         </ul>      
