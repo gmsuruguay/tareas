@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tareas :[],
-    tarea : { id :'', nombre:''},    
+    tarea : { id :'', nombre:'', completado:''},    
   },
   mutations: {
     setTareas(state, payload){
@@ -22,6 +22,9 @@ export default new Vuex.Store({
     },
     eliminarTarea(state, payload){
       state.tareas = state.tareas.filter(tarea => tarea.id != payload)
+    },
+    completarTarea(state, index){
+      state.tareas[index].completado = true
     }
   },
   actions: {
@@ -57,11 +60,12 @@ export default new Vuex.Store({
     },
     agregarTarea({commit, dispatch}, nombreTarea){
       db.collection('tareas').add({
-        nombre: nombreTarea
+        nombre: nombreTarea,
+        completado: false
       }).then( res =>{
         console.log(res.id)
         //dispatch('getTareas')
-        let tarea = {id:res.id , nombre:nombreTarea}
+        let tarea = {id:res.id , nombre:nombreTarea, completado: false}
         commit('addTarea', tarea)
       })
     },
@@ -72,7 +76,15 @@ export default new Vuex.Store({
         //dispatch('getTareas') //recarga pagina pero implica traer todos los datos del servidor
         commit('eliminarTarea', id)
       })
-    }
+    },
+    completarTarea({commit}, payload){      
+      db.collection('tareas').doc(payload.id).update({
+        completado: true
+      }).then(() =>{
+        console.log('Tarea Completada')
+        commit('completarTarea', payload.index)       
+      })
+    },
   },
   modules: {
   }
