@@ -1,11 +1,11 @@
 <template>
     <div>
         <h1>Inicio</h1>       
-        <form @submit.prevent="agregarTarea(nombre)">
+        <form @submit.prevent="addNewItem()">
             <div class="input-group mb-3">
                 <input class="form-control" type="text" v-model="nombre">
                 <div class="input-group-append">
-                <button type="submit" class="btn btn-primary" v-on:keyup.enter="agregarTarea(nombre)">Agregar</button>
+                <button type="submit" class="btn btn-primary" v-on:keyup.enter="addNewItem()">Agregar</button>
                 </div>
             </div>
         </form>
@@ -36,8 +36,11 @@ import {mapActions, mapState, mapMutations} from 'vuex'
             this.getTareas()
         },
         methods:{
-            ...mapActions(['getTareas','eliminarTarea','agregarTarea']),
-            //...mapMutations(['agregarTarea'])
+            ...mapActions(['getTareas','eliminarTarea']),
+            addNewItem(){
+                this.$store.dispatch('agregarTarea',this.nombre)
+                this.nombre = ''
+            }
         },
         computed:{
             ...mapState(['tareas'])
