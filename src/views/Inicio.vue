@@ -11,7 +11,7 @@
         </form>
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center" :class="[tarea.completado ? 'finish' : '']"
-            v-for="(tarea,index) in tareas" :key="index"> {{index}} - {{tarea.nombre}} - {{tarea.completado}}
+            v-for="(tarea,index) in tareas" :key="index"> {{ index + 1 }} - {{tarea.nombre}}
             <span>
                 <router-link :to="{name: 'Editar' , params:{id:tarea.id}}" v-if="!tarea.completado">
                     <button type="button" class="btn btn-link text-primary"> <i class="material-icons">create</i></button>
