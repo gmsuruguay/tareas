@@ -10,7 +10,7 @@
             </div>
         </form>
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center" :class="[tarea.completado ? 'list-group-item-success' : '']"
+            <li class="list-group-item d-flex justify-content-between align-items-center" :class="[tarea.completado ? 'finish' : '']"
             v-for="(tarea,index) in tareas" :key="index"> {{index}} - {{tarea.nombre}} - {{tarea.completado}}
             <span>
                 <router-link :to="{name: 'Editar' , params:{id:tarea.id}}" v-if="!tarea.completado">
@@ -48,3 +48,10 @@ import {mapActions, mapState, mapMutations} from 'vuex'
         }
     }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.finish {
+  text-decoration: line-through;
+}
+</style>
